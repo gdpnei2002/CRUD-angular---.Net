@@ -14,7 +14,9 @@ export class PessoasComponent {
   tituloFormulario!: string;
   pessoas!: Pessoa[];
 
-  
+  visibilidadeTabela: boolean = true;
+  visibilidadeFormulario: boolean = false;
+
 
   constructor(
     private pessoasService: PessoasService
@@ -25,7 +27,16 @@ export class PessoasComponent {
     this.pessoasService.PegarTodos().subscribe((resultado) => {
       this.pessoas = resultado;
     });
+  }
 
+  Voltar(): void {
+    this.visibilidadeTabela = true;
+    this.visibilidadeFormulario = false;
+  }
+
+  ExibirFormularioCadastro(): void{
+    this.visibilidadeTabela = false;
+    this.visibilidadeFormulario = true;
     this.tituloFormulario = 'Nova Pessoa'
     this.formulario = new FormGroup({
       nome: new FormControl(null),
@@ -37,8 +48,14 @@ export class PessoasComponent {
 
   EnviarFormulario(){
     const pessoa: Pessoa = this.formulario.value;
+
     this.pessoasService.SalvarPessoa(pessoa).subscribe((resultado) =>{
+      this.visibilidadeFormulario = false;
+      this.visibilidadeTabela = true;
       alert('Pessoa inserida com sucesso')
+      this.pessoasService.PegarTodos().subscribe((registros) =>{
+        this.pessoas = registros
+      })
     })
   }
 }
