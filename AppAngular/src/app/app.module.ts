@@ -7,10 +7,12 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PessoasService } from './pessoas.service';
+import { PessoasComponent } from './components/pessoas/pessoas.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    PessoasComponent
   ],
   imports: [
     BrowserModule,
