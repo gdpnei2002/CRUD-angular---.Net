@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Pessoa } from 'src/app/Pessoa';
+import { PessoasService } from 'src/app/pessoas.service';
 
 @Component({
   selector: 'app-pessoas',
@@ -11,7 +13,9 @@ export class PessoasComponent {
   formulario: any;
   tituloFormulario!: string;
 
-  constructor(){}
+  constructor(
+    private pessoasService: PessoasService
+  ){}
 
   ngOnInit(): void{
     this.tituloFormulario = 'Nova Pessoa'
@@ -20,6 +24,13 @@ export class PessoasComponent {
       sobrenome: new FormControl(null),
       idade: new FormControl(null),
       profissao: new FormControl(null)
+    })
+  }
+
+  EnviarFormulario(){
+    const pessoa: Pessoa = this.formulario.value;
+    this.pessoasService.SalvarPessoa(pessoa).subscribe((resultado) =>{
+      alert('Pessoa inserida com sucesso')
     })
   }
 }
