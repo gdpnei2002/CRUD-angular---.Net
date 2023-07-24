@@ -12,12 +12,20 @@ export class PessoasComponent {
 
   formulario: any;
   tituloFormulario!: string;
+  pessoas!: Pessoa[];
+
+  
 
   constructor(
     private pessoasService: PessoasService
   ){}
 
   ngOnInit(): void{
+
+    this.pessoasService.PegarTodos().subscribe((resultado) => {
+      this.pessoas = resultado;
+    });
+
     this.tituloFormulario = 'Nova Pessoa'
     this.formulario = new FormGroup({
       nome: new FormControl(null),
