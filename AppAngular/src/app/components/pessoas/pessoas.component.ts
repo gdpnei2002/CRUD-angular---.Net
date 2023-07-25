@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, TemplateRef } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Pessoa } from 'src/app/Pessoa';
 import { PessoasService } from 'src/app/pessoas.service';
 
@@ -16,10 +17,14 @@ export class PessoasComponent {
 
   visibilidadeTabela: boolean = true;
   visibilidadeFormulario: boolean = false;
-
+  
+  nomePessoa!: string;
+  modalRef!: BsModalRef;
+  pessoaId!: number;
 
   constructor(
-    private pessoasService: PessoasService
+    private pessoasService: PessoasService,
+    private modalService: BsModalService 
   ){}
 
   ngOnInit(): void{
@@ -85,5 +90,21 @@ export class PessoasComponent {
         });
       });
     }
+  }
+
+  ExibirConfirmacaoExclusao(pessoaId: any, nomePessoa: any, conteudoModal: TemplateRef<any>): void {
+    this.modalRef = this.modalService.show(conteudoModal);
+    this.pessoaId = pessoaId;
+    this.nomePessoa = nomePessoa;
+  }
+
+  ExcluirPessoa(pessoaId: any){
+    this.pessoasService.ExcluirPessoa(pessoaId).subscribe(resultado => {
+      this.modalRef.hide();
+      alert('Pessoa excluída com sucesso');
+      this.pessoasService.PegarTodos().subscribe(registros => {
+        this.pessoas = registros;
+      });
+    });
   }
 }

@@ -26,7 +26,7 @@
           <button type="button" class="btn btn-sm btn-outline-info" (click)="ExibirFormularioAtualizacao(pessoa.pessoaId)" >
             Atualizar</button
           >|
-          <button type="button" class="btn btn-sm btn-outline-danger">
+          <button type="button" class="btn btn-sm btn-outline-danger" (click)="ExibirConfirmacaoExclusao(pessoa.pessoaId, pessoa.nome, conteudoModal)">
             Excluir
           </button>
         </td>
@@ -94,4 +94,21 @@
       </div>
     </div>
   </div>
+
+  <ng-template #conteudoModal>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Confirmação de Exclusão</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      Prosseguir com a exclusão do(a) {{nomePessoa}}
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="modalRef.hide()">Não</button>
+        <button type="button" class="btn btn-outline-danger" (click)="ExcluirPessoa(pessoaId)">Sim</button>
+    </div>
+  </ng-template>
   
